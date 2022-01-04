@@ -28,8 +28,6 @@ class PhoneBooks:
   
     def add():    
         
-        
-
         f_name = input('First name:')
 
         l_name = input('Last Name:')
