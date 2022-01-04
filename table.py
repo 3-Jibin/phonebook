@@ -1,12 +1,16 @@
 import sqlite3
 
-connection = sqlite3.connect('phone.db')
-cursor = connection.cursor()
+
 class PhoneBooks:
 
-    def main():
+    def con(self):
+        self.connection = sqlite3.connect('phone.db')
+        self.cursor = self.connection.cursor()
+        
+
+    def main(self):
      
-        a = int(input("""      1.  ADD
+        a = int(input("""        1.  ADD
         2.  LIST
         3.  DELETE
         4.  UPDATE  """))
@@ -26,81 +30,87 @@ class PhoneBooks:
 
     
   
-    def add():    
+    def add(self):    
         
+        
+
         f_name = input('First name:')
 
         l_name = input('Last Name:')
 
         p_no = input('Phone number')
 
-        cursor.execute("""
+        self.cursor.execute("""
         INSERT INTO phonebooks(fname, lname, pno)
         VALUES (?,?,?)
         """, (f_name, l_name, p_no))
 
-           
+        
+    
     
 
-    def lists():  
+    def lists(self):  
         
            
-        cursor.execute("SELECT * FROM phonebooks")
+        self.cursor.execute("SELECT * FROM phonebooks")
 
 
-        books = cursor.fetchall()
+        books = self.cursor.fetchall()
 
-        print("ROW" + "   NAME " + "\t\t PHONE NUMBER")
-        print("----------"+"\t\t-------------")
+        print("ROW" + "\tNAME" + "\t\t\tPHONE NUMBER")
+        print("----"+"\t-----"+"\t\t\t-------------")
 
         for book in books:
-            print(book)
+            print(str(book[0])+"\t"+book[1]+" "+book[2]+" \t \t"+str(book[3]))
 
-             
-
-    def delete():
-
-        r_no = input("Enter the Row number to Delete you want:")
-
-        cursor.execute("DELETE FROM phonebooks WHERE slno = {}".format(r_no))
-
-        print("The Row"+ r_no +" deleted succecfully")
-
-        cursor.execute("SELECT * FROM phonebooks")
-
-        print(cursor.fetchall())
 
         
 
-    def update():
+    def delete(self):
+
+        r_no = input("Enter the Row number to Delete:")
+
+        self.cursor.execute("DELETE FROM phonebooks WHERE slno = {}".format(r_no))
+
+        self.print("The Row"+ r_no +" deleted succecfully")
+
+        self.cursor.execute("SELECT * FROM phonebooks")
+
+        print(self.cursor.fetchall())
+
+            
+
+    def update(self):
         
+
         rno = input("Enter the Row number  :")
         print(type (rno))
-        cursor.execute("""UPDATE phonebooks SET pno = 90909091111 
+        self.cursor.execute("""UPDATE phonebooks SET pno = 90909091111 
                 
                         WHERE slno = {}""".format(rno))
 
-        cursor.execute("SELECT * FROM phonebooks")
+        self.cursor.execute("SELECT * FROM phonebooks ")
 
-           
-    
-        print(cursor.fetchall())
+        books = self.cursor.fetchall()
+
+        print("ROW" + "\tNAME" + "\t\t\tPHONE NUMBER")
+        print("----"+"\t-----"+"\t\t\t-------------")
+
+        for book in books:
+            print(str(book[0])+"\t"+book[1]+" "+book[2]+" \t \t"+str(book[3]))
 
 
-        
+    def close(self):
+        self.connection.commit()
+        self.cursor.close()
 
+        self.connection.close()
+      
 
-
-p = PhoneBooks
-
+p = PhoneBooks()
+p.con()
 p.main()
-    
-connection.commit()
-cursor.close()
-
-
-connection.close()
-
+p.close()
 
 
 

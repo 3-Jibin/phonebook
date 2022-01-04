@@ -6,7 +6,6 @@ cursor = connection.cursor()
 
 cursor.execute('''CREATE TABLE phonebooks
               ( slno INTEGER PRIMARY KEY,
-              
                 fname TEXT,
                lname TEXT,
                 pno INT)''')
