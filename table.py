@@ -1,3 +1,7 @@
+import sqlite3
+
+connection = sqlite3.connect('phone.db')
+cursor = connection.cursor()
 class PhoneBooks:
 
     def main():
@@ -24,10 +28,7 @@ class PhoneBooks:
   
     def add():    
         
-        import sqlite3
-
-        connection = sqlite3.connect('phone.db')
-        cursor = connection.cursor()
+        
 
         f_name = input('First name:')
 
@@ -40,20 +41,12 @@ class PhoneBooks:
         VALUES (?,?,?)
         """, (f_name, l_name, p_no))
 
-        connection.commit()
-
-        connection.close()
-    
+           
     
 
     def lists():  
         
-        import sqlite3
-
-        connection = sqlite3.connect('phone.db')
-
-        cursor = connection.cursor()
-    
+           
         cursor.execute("SELECT * FROM phonebooks")
 
 
@@ -65,20 +58,9 @@ class PhoneBooks:
         for book in books:
             print(book)
 
-            #print(cursor.fetchall())
-
-
-        connection.commit()
-
-        connection.close()
+             
 
     def delete():
-
-        import sqlite3
-
-        connection = sqlite3.connect('phone.db')
-
-        cursor = connection.cursor()
 
         r_no = input("Enter the Row number to Delete you want:")
 
@@ -90,17 +72,10 @@ class PhoneBooks:
 
         print(cursor.fetchall())
 
-        connection.commit()
-
-        connection.close()
+        
 
     def update():
-        import sqlite3
-
-        connection = sqlite3.connect('phone.db')
-
-        cursor = connection.cursor()
-
+        
         rno = input("Enter the Row number  :")
         print(type (rno))
         cursor.execute("""UPDATE phonebooks SET pno = 90909091111 
@@ -114,11 +89,7 @@ class PhoneBooks:
         print(cursor.fetchall())
 
 
-        connection.commit()
-        cursor.close()
-
-
-        connection.close()
+        
 
 
 
@@ -126,6 +97,11 @@ p = PhoneBooks
 
 p.main()
     
+connection.commit()
+cursor.close()
+
+
+connection.close()
 
 
 
