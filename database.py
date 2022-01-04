@@ -1,14 +1,14 @@
 import sqlite3    
 
-connection = sqlite3.connect('phbook.db')
+connection = sqlite3.connect('phone.db')
 
 cursor = connection.cursor()
 
 cursor.execute('''CREATE TABLE phonebooks
-              (slno INT,
+              ( slno INTEGER PRIMARY KEY,
+              
                 fname TEXT,
                lname TEXT,
-               
                 pno INT)''')
 
 connection.commit()

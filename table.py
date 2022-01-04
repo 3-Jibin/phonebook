@@ -2,10 +2,22 @@ class PhoneBooks:
 
     def main():
      
-        a = input("""      1.  ADD
+        a = int(input("""      1.  ADD
         2.  LIST
-        3.  UPDATE
-        4.  DELETE  """)
+        3.  DELETE
+        4.  UPDATE  """))
+
+        if a == 1: 
+            p.add()
+
+        elif a == 2:
+            p.lists()
+
+        elif a == 3:
+            p.delete()
+
+        elif a == 4:
+            p.update()
 
 
     
@@ -13,10 +25,9 @@ class PhoneBooks:
     def add():    
         
         import sqlite3
-        connection = sqlite3.connect('phbook.db')
-        cursor = connection.cursor()
 
-        sl_no = input('Enter sl. no.')
+        connection = sqlite3.connect('phone.db')
+        cursor = connection.cursor()
 
         f_name = input('First name:')
 
@@ -25,24 +36,36 @@ class PhoneBooks:
         p_no = input('Phone number')
 
         cursor.execute("""
-        INSERT INTO phonebooks(slno, fname, lname, pno)
-        VALUES (?,?,?,?)
-        """, (sl_no, f_name, l_name, p_no))
+        INSERT INTO phonebooks(fname, lname, pno)
+        VALUES (?,?,?)
+        """, (f_name, l_name, p_no))
 
         connection.commit()
 
         connection.close()
     
-     
+    
 
     def lists():  
         
         import sqlite3
-        connection = sqlite3.connect('phbook.db')
+
+        connection = sqlite3.connect('phone.db')
+
         cursor = connection.cursor()
     
         cursor.execute("SELECT * FROM phonebooks")
-        print(cursor.fetchall())
+
+
+        books = cursor.fetchall()
+
+        print("ROW" + "   NAME " + "\t\t PHONE NUMBER")
+        print("----------"+"\t\t-------------")
+
+        for book in books:
+            print(book)
+
+            #print(cursor.fetchall())
 
 
         connection.commit()
@@ -52,17 +75,18 @@ class PhoneBooks:
     def delete():
 
         import sqlite3
-        connection = sqlite3.connect('phbook.db')
+
+        connection = sqlite3.connect('phone.db')
 
         cursor = connection.cursor()
 
-        slno = input("Enter the correct sl no. to need delete")
+        r_no = input("Enter the Row number to Delete you want:")
 
-        cursor.execute("DELETE FROM phonebooks WHERE slno =  slno")
+        cursor.execute("DELETE FROM phonebooks WHERE slno = {}".format(r_no))
 
-        print("The ROW",slno,"deleted succecfully")
+        print("The Row"+ r_no +" deleted succecfully")
 
-        cursor.execute("SELECT * FROM phonebooks WHERE slno = slno")
+        cursor.execute("SELECT * FROM phonebooks")
 
         print(cursor.fetchall())
 
@@ -70,17 +94,39 @@ class PhoneBooks:
 
         connection.close()
 
+    def update():
+        import sqlite3
+
+        connection = sqlite3.connect('phone.db')
+
+        cursor = connection.cursor()
+
+        rno = input("Enter the Row number  :")
+        print(type (rno))
+        cursor.execute("""UPDATE phonebooks SET pno = 90909091111 
+                
+                        WHERE slno = {}""".format(rno))
+
+        cursor.execute("SELECT * FROM phonebooks")
+
+           
+    
+        print(cursor.fetchall())
+
+
+        connection.commit()
+        cursor.close()
+
+
+        connection.close()
+
+
+
 p = PhoneBooks
 
 p.main()
-a = 5
-if a == 1: 
-    p.add()
-
     
-git remote add origin https://github.com/3-Jibin/requirements.txt.git
-git branch -M main
-git push -u origin main
+
 
 
 
